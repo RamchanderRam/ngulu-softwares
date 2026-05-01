@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N-Gulu Softwares | We build software that matters.</title>
+    <!-- Modern Fonts: Inter for text, Fira Code for code snippets -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --primary-hover: #4338CA;
+            --secondary: #EC4899;
+            --bg: #F8FAFC;
+            --surface: #FFFFFF;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --border: #E2E8F0;
+            --radius: 16px;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text-main); line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        
+        /* Typography */
+        h1, h2, h3, h4 { letter-spacing: -0.02em; line-height: 1.2; }
+        h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 800; margin-bottom: 1.5rem; }
+        h2 { font-size: clamp(2rem, 3vw, 2.5rem); font-weight: 700; margin-bottom: 1rem; }
+        .gradient-text { background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* Layout */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        section { padding: 6rem 0; }
+        
+        /* Navigation */
+        nav { position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); z-index: 1000; padding: 1rem 0; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 800; font-size: 1.25rem; display: flex; align-items: center; gap: 0.5rem; }
+        .logo span { color: var(--primary); }
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links a { font-weight: 500; color: var(--text-muted); transition: var(--transition); }
+        .nav-links a:hover { color: var(--primary); }
+        
+        /* Buttons */
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; transition: var(--transition); cursor: pointer; border: none; font-size: 1rem; gap: 0.5rem; }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39); }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); }
+        .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text-main); }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* Hero Section */
+        .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 5rem; }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .hero-location { font-size: 0.875rem; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; display: inline-block; }
+        .hero-subtitle { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 2.5rem; max-width: 90%; }
+        .hero-actions { display: flex; gap: 1rem; margin-bottom: 3rem; }
+        .hero-stats { display: flex; gap: 2rem; border-top: 1px solid var(--border); padding-top: 2rem; }
+        .stat h4 { font-size: 1.5rem; color: var(--text-main); }
+        .stat p { font-size: 0.875rem; color: var(--text-muted); }
+
+        /* Code Window Mockup */
+        .code-window { background: #0F172A; border-radius: 12px; overflow: hidden; box-shadow: 20px 20px 60px rgba(0,0,0,0.1); border: 1px solid #1E293B; }
+        .code-header { background: #1E293B; padding: 0.75rem 1rem; display: flex; gap: 0.5rem; align-items: center; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.r { background: #EF4444; } .dot.y { background: #F59E0B; } .dot.g { background: #10B981; }
+        .code-title { color: #94A3B8; font-family: 'Fira Code', monospace; font-size: 0.875rem; margin-left: auto; margin-right: auto; }
+        .code-content { padding: 1.5rem; color: #E2E8F0; font-family: 'Fira Code', monospace; font-size: 0.9rem; line-height: 1.7; overflow-x: auto; }
+        .c-kw { color: #C678DD; } .c-class { color: #E5C07B; } .c-str { color: #98C379; } .c-func { color: #61AFEF; }
+
+        /* Section Headers */
+        .section-header { margin-bottom: 4rem; text-align: center; max-width: 600px; margin-inline: auto; }
+        .section-header p { color: var(--text-muted); font-size: 1.125rem; }
+
+        /* Bento Grid (About) */
+        .bento-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+        .bento-card { background: var(--surface); padding: 2rem; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow); transition: var(--transition); }
+        .bento-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .bento-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .bento-card h3 { margin-bottom: 0.5rem; }
+        .bento-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+        /* Portfolio */
+        .filter-tabs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
+        .filter-btn { padding: 0.5rem 1.5rem; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); cursor: pointer; font-weight: 500; transition: var(--transition); }
+        .filter-btn.active, .filter-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+        
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+        .project-card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; transition: var(--transition); box-shadow: var(--shadow); }
+        .project-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+        .project-content { padding: 2rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .project-icon { font-size: 3rem; margin-bottom: 1rem; }
+        .project-type { font-size: 0.8rem; font-weight: 600; color: var(--primary); text-transform: uppercase; margin-bottom: 0.5rem; }
+        .project-card h3 { margin-bottom: 1rem; }
+        .project-card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; flex-grow: 1; }
+        .project-features { margin-bottom: 1.5rem; padding-left: 1rem; color: var(--text-muted); font-size: 0.9rem; }
+        .project-features li { margin-bottom: 0.5rem; list-style-type: disc; }
+        .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+        .tag { background: var(--bg); color: var(--text-main); font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 4px; font-weight: 600; border: 1px solid var(--border); }
+        .project-link { margin-top: auto; color: var(--primary); font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem; }
+        .project-link:hover { gap: 0.5rem; }
+
+        /* Tech Stack */
+        .stack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; }
+        .stack-item { background: var(--surface); border: 1px solid var(--border); padding: 1rem; border-radius: 8px; display: flex; align-items: center; gap: 0.75rem; font-weight: 500; justify-content: center; transition: var(--transition); }
+        .stack-item:hover { border-color: var(--primary); transform: scale(1.05); }
+
+        /* Testimonial */
+        .testimonial { background: var(--primary); color: white; text-align: center; border-radius: var(--radius); padding: 4rem 2rem; margin: 4rem 0; }
+        .testimonial blockquote { font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 500; line-height: 1.5; margin-bottom: 2rem; font-style: italic; }
+        .testimonial-author { display: flex; align-items: center; justify-content: center; gap: 1rem; }
+        .author-info h4 { margin: 0; font-size: 1.1rem; }
+        .author-info p { margin: 0; font-size: 0.9rem; opacity: 0.8; }
+
+        /* Contact Section */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+        .contact-info li { margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; font-size: 1.1rem; color: var(--text-muted); }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-control { width: 100%; padding: 1rem; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 1rem; background: var(--bg); transition: var(--transition); }
+        .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+        textarea.form-control { resize: vertical; min-height: 120px; }
+
+        /* Footer */
+        footer { border-top: 1px solid var(--border); padding: 3rem 0; text-align: center; color: var(--text-muted); }
+        .footer-content { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .hero-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .hero { padding-top: 8rem; text-align: center; }
+            .hero-stats, .hero-actions { justify-content: center; }
+        }
+        @media (max-width: 600px) {
+            .bento-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; /* Add mobile menu JS for full implementation */ }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <a href="#" class="logo">N<span>-</span>Gulu Softwares</a>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#products">Products</a>
+                <a href="#stack">Stack</a>
+                <a href="#contact">Contact</a>
+                <a href="#contact" class="btn btn-primary">Let's Build &rarr;</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <span class="hero-location">📍 Hyderabad · Telangana · India</span>
+                <h1>We build software<br><span class="gradient-text">that matters.</span></h1>
+                <p class="hero-subtitle">N-Gulu Softwares is a full-stack product studio delivering AI tools, enterprise platforms, mobile apps, and community-first digital solutions — from farms to clinics to NGOs.</p>
+                <div class="hero-actions">
+                    <a href="#products" class="btn btn-primary">Explore Products</a>
+                    <a href="#contact" class="btn btn-outline">Start a Project</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat"><h4>3</h4><p>Products Live</p></div>
+                    <div class="stat"><h4>5</h4><p>Sectors Served</p></div>
+                    <div class="stat"><h4>100%</h4><p>Full Stack</p></div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="code-window">
+                    <div class="code-header">
+                        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+                        <div class="code-title">NGulu.Studio.cs</div>
+                    </div>
+                    <div class="code-content">
+<span class="c-kw">namespace</span> NGulu.Core 
+{
+    <span class="c-kw">public class</span> <span class="c-class">SoftwareStudio</span> 
+    {
+        <span class="c-kw">public string</span>[] Products =&gt; [ 
+            <span class="c-str">"AgriConnect"</span>, 
+            <span class="c-str">"SakthisenaSeva"</span>, 
+            <span class="c-str">"SriRamaClinic"</span> 
+        ];
+
+        <span class="c-kw">public async</span> Task&lt;Impact&gt; <span class="c-func">BuildAsync</span>() =&gt; 
+            <span class="c-kw">await</span> Ship(<span class="c-str">"with purpose"</span>);
+    }
+}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" style="background-color: white;">
+        <div class="container">
+            <div class="section-header">
+                <h2>One studio. <span class="gradient-text">Infinite domains.</span></h2>
+                <p>Founded with a single belief: technology should serve people first. We combine deep engineering with purposeful design — across agriculture, healthcare, social welfare, and enterprise.</p>
+            </div>
+            
+            <div class="bento-grid">
+                <div class="bento-card">
+                    <div class="bento-icon">⚡</div>
+                    <h3>Full-Stack Engineering</h3>
+                    <p>.NET 8, SQL Server, REST APIs, EF Core, Bootstrap, jQuery — production-grade from day one.</p>
+                </div>
+                <div class="bento-card">
+                    <div class="bento-icon">🌱</div>
+                    <h3>Community-First Design</h3>
+                    <p>Built for Telangana. Designed for real users — farmers, patients, volunteers — not abstract personas.</p>
+                </div>
+                <div class="bento-card">
+                    <div class="bento-icon">🛡️</div>
+                    <h3>SRE-Grade Reliability</h3>
+                    <p>Uptime, integrity, and security are first-class concerns. Every system is designed to be always-on.</p>
+                </div>
+                <div class="bento-card">
+                    <div class="bento-icon">🤖</div>
+                    <h3>AI-Augmented Products</h3>
+                    <p>Integrating intelligent features — from smart recommendations to automated workflows — into every platform.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="products">
+        <div class="container">
+            <div class="section-header">
+                <h2>Products We've Built</h2>
+                <p>Three distinct platforms. One mission — digital empowerment.</p>
+            </div>
+
+            <div class="filter-tabs">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="agri">AgriTech</button>
+                <button class="filter-btn" data-filter="social">Social Impact</button>
+                <button class="filter-btn" data-filter="health">HealthTech</button>
+            </div>
+
+            <div class="portfolio-grid">
+                <!-- Project 1 -->
+                <div class="project-card" data-category="agri">
+                    <div class="project-content">
+                        <div class="project-icon">🌾</div>
+                        <span class="project-type">AgriTech · Marketplace</span>
+                        <h3>AgriConnect</h3>
+                        <p>An end-to-end digital farming platform bridging traditional agriculture with modern technology for Telangana farmers.</p>
+                        <ul class="project-features">
+                            <li>5 roles: Farmers, Buyers, Laborers, Experts, Admins</li>
+                            <li>Real-time Mandi prices & weather data</li>
+                            <li>Govt. scheme tracking & crop marketplace</li>
+                        </ul>
+                        <div class="project-tags">
+                            <span class="tag">.NET 8</span> <span class="tag">SQL Server</span> <span class="tag">JWT</span> <span class="tag">REST API</span>
+                        </div>
+                        <a href="#" class="project-link">Details &rarr; <span style="font-size: 0.75rem; color: var(--text-muted); margin-left: auto;">(In Development)</span></a>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card" data-category="social">
+                    <div class="project-content">
+                        <div class="project-icon">🤝</div>
+                        <span class="project-type">Social Welfare · NGO</span>
+                        <h3>Sakthisena Seva Samithi</h3>
+                        <p>A purpose-built NGO portal streamlining volunteer management, donations, and community service coordination.</p>
+                        <ul class="project-features">
+                            <li>Volunteer registration & mobilization</li>
+                            <li>Secure donation tracking & workflows</li>
+                            <li>Public portal with secure admin backend</li>
+                        </ul>
+                        <div class="project-tags">
+                            <span class="tag">ASP.NET MVC</span> <span class="tag">SQL</span> <span class="tag">jQuery</span> <span class="tag">Bootstrap</span>
+                        </div>
+                        <a href="#" class="project-link">Details &rarr; <span style="font-size: 0.75rem; color: var(--text-muted); margin-left: auto;">(In Development)</span></a>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card" data-category="health">
+                    <div class="project-content">
+                        <div class="project-icon">🏥</div>
+                        <span class="project-type">HealthTech · API Service</span>
+                        <h3>Sri Rama Clinic</h3>
+                        <p>A secure backend API service digitizing clinic operations — patient records, scheduling, and administrative workflows.</p>
+                        <ul class="project-features">
+                            <li>Patient records & clinical data management</li>
+                            <li>Appointment scheduling engine</li>
+                            <li>SRE-grade high-availability design</li>
+                        </ul>
+                        <div class="project-tags">
+                            <span class="tag">.NET 8 API</span> <span class="tag">EF Core</span> <span class="tag">Swagger</span> <span class="tag">SRE</span>
+                        </div>
+                        <a href="#" class="project-link">Details &rarr; <span style="font-size: 0.75rem; color: var(--text-muted); margin-left: auto;">(In Development)</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack & Testimonial -->
+    <section id="stack" style="background-color: white;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Technology Arsenal</h2>
+                <p>Modern, battle-tested tools for production-grade software.</p>
+            </div>
+
+            <div class="stack-grid">
+                <div class="stack-item">⚙️ C# / .NET 8</div>
+                <div class="stack-item">🗄️ SQL Server</div>
+                <div class="stack-item">🔌 ASP.NET MVC</div>
+                <div class="stack-item">☁️ REST APIs</div>
+                <div class="stack-item">🔒 JWT Auth</div>
+                <div class="stack-item">📦 EF Core</div>
+                <div class="stack-item">🌐 HTML5 / CSS3</div>
+                <div class="stack-item">⚡ JavaScript</div>
+                <div class="stack-item">🅱️ Bootstrap 5</div>
+                <div class="stack-item">💲 jQuery</div>
+                <div class="stack-item">🐙 Git / GitHub</div>
+                <div class="stack-item">📖 Swagger</div>
+                <div class="stack-item">λ Lambda</div>
+                <div class="stack-item">🔷 Microservices</div>
+            </div>
+
+            <div class="testimonial">
+                <blockquote>"We don't just write code. We solve real problems for real people — from a farmer in Nizamabad checking Mandi prices on his phone, to a clinic admin in Hyderabad scheduling patients without paper. That's what N-Gulu Softwares stands for."</blockquote>
+                <div class="testimonial-author">
+                    <div class="author-info">
+                        <h4>Founder & Product Owner</h4>
+                        <p>N-Gulu Softwares · Hyderabad, Telangana</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div>
+                    <h2>Let's build something <span class="gradient-text">remarkable.</span></h2>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 1.1rem;">Have a project idea? Want to collaborate or partner? Drop a message and I'll get back within 24 hours.</p>
+                    <ul class="contact-info">
+                        <li>📍 Hyderabad, Telangana, India</li>
+                        <li>✉️ hello@ngulu-softwares.in</li>
+                        <li>💻 github.com/ngulu-softwares</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <form style="background: var(--surface); padding: 2rem; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow);">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Email Address" required>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" required>
+                                <option value="" disabled selected>Select a product / topic...</option>
+                                <option>AgriConnect</option>
+                                <option>Sakthisena Seva Samithi</option>
+                                <option>Sri Rama Clinic</option>
+                                <option>Custom Project</option>
+                                <option>Partnership / Investment</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" placeholder="Message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message ✉️</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <a href="#" class="logo">N<span>-</span>Gulu Softwares</a>
+            <p>Building tomorrow's software, today.</p>
+            <p style="font-size: 0.875rem;">© 2026 N-Gulu Softwares. Crafted with ❤️ in Hyderabad.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactions -->
+    <script>
+        // Portfolio Filtering
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projects = document.querySelectorAll('.project-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked
+                btn.classList.add('active');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                projects.forEach(project => {
+                    if (filterValue === 'all' || project.getAttribute('data-category') === filterValue) {
+                        project.style.display = 'flex';
+                    } else {
+                        project.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
